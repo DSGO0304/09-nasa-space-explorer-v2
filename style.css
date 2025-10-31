@@ -1,144 +1,338 @@
-/* Global reset & box sizing */
+/* Global Reset */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-/* Base page styles */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f1f1f1;
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff; /* Light background */
+  font-family: 'Barlow', sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  max-width: 1200px;
   padding: 20px;
 }
 
-/* Centered container */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Header */
 .site-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  gap: 20px;
+  background: linear-gradient(180deg, rgba(11, 61, 145, 0.9), rgba(11, 61, 145, 0.5)); 
+  padding: 24px;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  color: #ffffff; /* White text for clarity */
 }
 
-h1 {
-  font-family: Verdana, sans-serif;
-  font-weight: bold;
-  color: #212121;
-}
-
-/* Logo */
-.logo {
-  width: 140px;
-  margin-right: 15px;
-}
-
-/* Date‐picker & button row */
-.filters {
+/* Header inner layout: stack on small screens, align horizontally on larger screens */
+.header-inner {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  justify-content: center;
-  margin-bottom: 20px;
-  padding: 0 20px;
-}
-
-/* Inputs and buttons */
-input[type="date"],
-button {
-  font-family: Arial, sans-serif;
-  font-weight: normal;
-  color: #666;
-  padding: 10px 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-  line-height: 1.4;
+  align-items: center;
+  gap: 20px;
   width: 100%;
 }
 
-/* Button specific */
-button {
-  background-color: #d3d3d3;
-  color: black;
+/* Brand area - keep logo and text grouped */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nasa-logo {
+  width: 120px;  /* Updated size for better branding */
+  object-fit: contain;
+}
+
+/* Slightly larger logo on bigger screens */
+@media (min-width: 700px) {
+  .nasa-logo {
+    width: 160px;
+  }
+}
+
+.brand-text h1 {
+  font-size: 3rem;
+  color: #ffffff;
+  margin: 0;
+  font-weight: 800;
+}
+
+/* Controls (date inputs + get button) */
+/* Default: column layout (mobile) for vertical stacking */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+/* On wider screens arrange controls horizontally for compactness */
+@media (min-width: 700px) {
+  .controls {
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+  }
+  .controls label {
+    margin: 0;
+  }
+}
+
+.controls label {
+  display: flex;
+  flex-direction: column;
+  color: #ffffff; /* put label text on header background for visibility */
+  font-size: 0.95rem;
+  font-weight: 600;
+  align-items: flex-start;
+}
+
+/* Make the date input more compact so the calendar UI fits the design */
+.controls input[type="date"] {
+  width: 220px; /* compact width for date picker */
+  min-width: 160px;
+  box-sizing: border-box;
+  /* Keep the same visual style as the buttons */
+  padding: 12px;
+  background: #0b3d91;
+  color: white;
+  border: 2px solid #fff;
+  border-radius: 12px;
+  font-size: 1.2rem;
+}
+
+/* Ensure long date strings (if any) do not overflow */
+.controls input[type="date"]::-webkit-calendar-picker-indicator {
+  /* keep default indicator; avoids changing browser UI */
+}
+
+.controls button {
+  padding: 12px;
+  background: #0b3d91; /* Bright NASA Blue */
+  color: white;
+  border: 2px solid #fff;
+  border-radius: 12px;
+  font-size: 1.2rem;
   cursor: pointer;
 }
-button:hover {
-  background-color: #bfbfbf;
-}
 
-/* Stack horizontally on wider screens */
-@media (min-width: 600px) {
-  .filters {
-    flex-direction: row;
-    padding: 0;
-  }
-  
-  input[type="date"],
-  button {
-    width: auto;
-  }
-}
-
-/* Gallery flex container */
-.gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-  justify-content: center;
-}
-
-/* Gallery items */
-.gallery-item {
-  flex: 1 1 100%;  /* full width by default */
-  min-width: 280px;
-  max-width: 500px;
-  background: white;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Three columns on wider screens */
-@media (min-width: 1000px) {
-  .gallery-item {
-    flex: 0 1 31%;
-  }
-}
-
-.gallery-item img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.gallery-item p {
-  margin-top: 10px;
-  padding: 5px;
-  font-size: 14px;
-}
-
-/* Placeholder content */
-.placeholder {
-  flex: 1 1 100%;
+/* Reusable button style used by Get + Reset buttons for consistent appearance */
+.btn {
+  padding: 12px 18px;
+  background: #0b3d91; /* NASA Blue */
+  color: #ffffff;
+  border: 2px solid #fff;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 700;
+  display: inline-block;
   text-align: center;
-  padding: 40px;
-  color: #666;
 }
 
-.placeholder-icon {
-  font-size: 48px;
+/* Hover effect for buttons */
+.btn:hover {
+  background: #fc3d21; /* NASA Red */
+  transition: background 0.2s ease;
+}
+
+.controls input[type="date"]:focus,
+.controls button:hover {
+  background: #fc3d21; /* Bright NASA Red */
+  transition: all 0.3s ease;
+}
+
+.controls button {
+  width: 250px;
+  font-weight: bold;
+}
+
+/* Reset Date Range button - matches existing control/button styling */
+#resetDateRangeBtn {
+  /* keep sizing but inherit .btn */
+  width: 250px;
+}
+
+/* Improve spacing of the header container so content is centered both vertically and horizontally */
+.site-header {
+  padding: 24px;
+}
+
+#fact {
+  font-size: 1.5rem;
   margin-bottom: 20px;
+  font-style: italic;
+  color: #0b3d91; /* NASA Blue for facts */
+}
+
+#status {
+  margin-top: 20px;
+  color: #444;
+}
+
+.gallery {
+  /* Responsive CSS Grid:
+     - Mobile / small screens: 1 column (vertical list)
+     - Larger screens: 3 columns for a professional grid layout
+     - gap provides spacing between cards
+  */
+  display: grid;
+  grid-template-columns: 1fr; /* default: single column for mobile */
+  gap: 28px; /* space between cards */
+  width: 100%;
+  margin-top: 40px;
+  padding: 12px; /* breathing room from container edges */
+}
+
+/* At larger widths switch to a 3-column layout */
+@media (min-width: 960px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on larger screens */
+    gap: 24px;
+  }
+}
+
+/* Ensure gallery container has comfortable side padding on small screens */
+.gallery {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* Card visuals — light background, rounded corners, subtle shadow */
+.card {
+  background-color: #f4f4f4; /* light card background to make images pop */
+  border-radius: 10px; /* rounded corners */
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  width: 100%; /* fill the grid cell */
+}
+
+/* Slight lift on hover for interactivity (image zoom handled separately) */
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Fixed height thumbnail for uniform card heights */
+.thumb {
+  width: 100%;
+  height: 250px; /* requested fixed height */
+  object-fit: cover; /* preserve aspect ratio and cover the box */
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+/* Zoom the image slightly on hover for an interactive feel (scale 1.05) */
+.card:hover .thumb {
+  transform: scale(1.05);
+}
+
+/* Card body spacing for title and date */
+.card-body {
+  padding: 16px; /* comfortable spacing around text */
+  text-align: left;
+}
+
+/* Title: bold and larger */
+.card-title {
+  font-size: 1.4rem; /* requested size for title */
+  font-weight: 700;
+  color: #222;
+  margin: 6px 0 4px 0; /* small gap between title and date */
+}
+
+/* Date: lighter and slightly smaller */
+.card-date {
+  color: #777777; /* lighter color for date */
+  font-size: 1.1rem; /* requested size for date */
+  margin: 0;
+}
+
+/* Modal backdrop + centering (respect hidden attribute) */
+#modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8); /* dark backdrop */
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Respect the HTML hidden attribute so JS toggles visibility cleanly */
+#modal[hidden] {
+  display: none !important;
+}
+
+/* Modal content is white and centered for readability */
+.modal-content {
+  background: #ffffff; /* light modal content */
+  color: #111;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  position: relative;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+
+/* Close button position */
+#modalClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+/* Make media nicely responsive inside the modal */
+#modalMedia {
+  width: 100%;
+  aspect-ratio: 16/9;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+#modalMedia img,
+#modalMedia iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Responsive tweaks: smaller height on small screens and comfortable padding */
+@media (max-width: 600px) {
+  .thumb {
+    height: 200px; /* smaller fixed height on very small screens */
+  }
+  .modal-content {
+    padding: 14px;
+    border-radius: 10px;
+  }
 }

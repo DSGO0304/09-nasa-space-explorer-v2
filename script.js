@@ -66,6 +66,18 @@ function setStatus(msg) {
   els.status.innerHTML = msg ? `<span>${msg}</span>` : '';
 }
 
+// Devuelve exactamente 9 días consecutivos (YYYY-MM-DD) terminando en endISO
+function buildNineDayWindow(endISO) {
+  const end = new Date(endISO);
+  const days = [];
+  for (let i = 8; i >= 0; i--) {
+    const d = new Date(end);
+    d.setDate(end.getDate() - i);
+    days.push(d.toISOString().slice(0,10));
+  }
+  return days; // array de 9 strings YYYY-MM-DD en orden ascendente
+}
+
 // ================== FETCH ==================
 async function ensureDataLoaded() {
   if (DATA.length) return;
@@ -283,21 +295,26 @@ async function onSubmit(e) {
   const s = els.start?.value;
   const eDate = els.end?.value;
 
-  if (!s || !eDate) {
-    setStatus('🗓️ Please pick both start and end dates.');
-    return;
-  }
-  if (new Date(s) > new Date(eDate)) {
-    setStatus('↔️ Start date must be before end date.');
-    return;
-  }
+  if (!s || !eDate) { setStatus('🗓️ Please pick both start and end dates.'); return; }
+  if (new Date(s) > new Date(eDate)) { setStatus('↔️ Start date must be before end date.'); return; }
 
-  const results = DATA
-    .filter(it => inRange(it.date, s, eDate))
-    .sort((a,b) => new Date(b.date) - new Date(a.date));
+  // Asegurar exactamente 9 días consecutivos terminando en eDate
+  const windowDays = buildNineDayWindow(eDate); // 9 fechas
+  // Filtramos DATA por esas fechas exactas
+  const setDays = new Set(windowDays);
+  const nineItems = DATA
+    .filter(it => setDays.has(it.date))
+    .sort((a,b) => new Date(a.date) - new Date(b.date)); // asc para ver consecutivo
+
+  if (nineItems.length < 9) {
+    // Si el feed tiene algún hueco (raro, pero posible), informamos:
+    setStatus('⚠️ Fewer than 9 consecutive APOD entries exist for the chosen end date. Try another end date.');
+    renderList(nineItems); // igual mostramos lo disponible
+    return;
+  }
 
   setStatus('');
-  renderList(results);
+  renderList(nineItems); // exactamente 9 ítems consecutivos
 }
 
 function onReset() {
